@@ -11,18 +11,26 @@ myForm.addEventListener('submit',onSubmit);
 function onSubmit(e) {
     e.preventDefault();
 
-    let myObj={
-        username:nameInput,
-        email:emailInput,
-        password:passInput
-    }
-    
-    axios.post("http://localhost:4000/add-user",myObj)
-        .then((res)=>{
-            console.log(res);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    
+    if(nameInput.value === '') {
+        //msg.innerHTML = 'Please enter all fields';
+        console.log("enter all field");
+  
+    } else {
+
+        let myObj={
+            username:nameInput.value,
+            email:nameInput.value,
+            password:nameInput.value
+        };
+
+        console.log(myObj);
+
+        axios.post("http://localhost:3000/add-user",myObj)
+            .then((response)=>{
+                console.log(response.data.newUserDetails);
+            })
+            .catch((err)=>{
+                console.log(err);
+            })
+      }  
 };
