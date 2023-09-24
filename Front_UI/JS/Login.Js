@@ -21,13 +21,29 @@ function onSubmit(e){
 
         axios.post("http://localhost:3000/login",myObj)
             .then((response)=>{
-                console.log(response.data.newUserDetails);
+
+                const obj=response.data.newUserDetails;
+                console.log(obj);
+
+                //if user exist
+                if(obj.length>0){
+                    //check if password matches
+                    const pass=obj[0].password;
+                    if(myObj.password==pass){
+                        console.log("login successfully");
+                    }else{
+                        console.log("password didn't match");
+                    }
+                }
+                else   //if user doesn't exist
+                {
+                    console.log("User Not Found");
+                }
+                
             })
             .catch((err)=>{
                 console.log(err);
-                alert(err.message);
             })
-
 
       }  
 }
