@@ -19,8 +19,8 @@ function onSubmit(e) {
 
         let myObj={
             username:nameInput.value,
-            email:nameInput.value,
-            password:nameInput.value
+            email:emailInput.value,
+            password:passInput.value
         };
 
         console.log(myObj);
@@ -34,3 +34,5 @@ function onSubmit(e) {
             })
       }  
 };
+
+
