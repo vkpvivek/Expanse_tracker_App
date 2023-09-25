@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>--- Expanse Tracker ---</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/fontawesome.min.css">
+
+  </head>
+  <body>
+    <div class="container">
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd; justify-content: center;">
+            <h2>Expanse Tracker</h2>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div>
+
+
+            <form id="my-form">
+                <h3>Add Expanses</h3>
+                <div class="form-row msg">
+                    <div class="form-group col-md-4">
+                      <label for="amount">Expanse Amount:</label>
+                      <input type="text" class="form-control" id="amount" placeholder="Amount">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label for="describe">Description</label>
+                      <input type="text" class="form-control" id="describe" placeholder="Description">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="category">Category</label>
+                        <select class="form-control" id="category" placeholder="Category">
+                          <option selected>Choose...</option>
+                          <option>Entertainment</option>
+                          <option>food</option>
+                          <option>Rent</option>
+                          <option>Utility</option>
+                          <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <!-- <input class="btn" type="submit" value="Submit"> -->
+                    </div>
+                  </div>
+                  
+            </form>
+      
+            <ul class="list-group" id="expanseDetail">
+              <li class="list-group-item">Expanse Details <button class="delete" style="float: right;" >delete</button>
+                <!-- <button class="edit" style="float: right;" >Edit</button> -->
+              </li>
+            </ul>
+            
+        </div>
+    </div>
+      
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

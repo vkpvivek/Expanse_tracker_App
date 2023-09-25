@@ -8,13 +8,16 @@ const app=express();
 app.use(express.json());  //to parse JSON request bodies
 
 const userRoutes=require('./routes/user');
+const expanseRoutes=require('./routes/expanse');
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
-
 app.use(userRoutes);
+app.use(expanseRoutes);
+
+
 
 app.get('/',(req,res,next)=>{
     res.send('Not found');

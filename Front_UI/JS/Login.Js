@@ -22,25 +22,13 @@ function onSubmit(e){
         axios.post("http://localhost:3000/login",myObj)
             .then((response)=>{
 
+                //log message
                 console.log(response.data.message);
 
-                // const obj=response.data.newUserDetails;
-                // console.log(obj);
-
-                // //if user exist
-                // if(obj.length>0){
-                //     //check if password matches
-                //     const pass=obj[0].password;
-                //     if(myObj.password==pass){
-                //         console.log("login successfully");
-                //     }else{
-                //         console.log("password didn't match");
-                //     }
-                // }
-                // else   //if user doesn't exist
-                // {
-                //     console.log("User Not Found");
-                // }
+                //redirect to index if password match i.e, Login successfullly
+                if(response.data.success===true){
+                    window.location.href = "Expanse/index.html";
+                }
                 
             })
             .catch((err)=>{
