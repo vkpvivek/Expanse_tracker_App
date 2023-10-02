@@ -21,12 +21,14 @@ function onSubmit(e){
 
         axios.post("http://localhost:3000/login",myObj)
             .then((response)=>{
-
                 //log message
                 console.log(response.data.message);
 
                 //redirect to index if password match i.e, Login successfullly
                 if(response.data.success===true){
+                    const UserId=response.data.Uid;
+                    localStorage.setItem("Token",response.data.token);
+                    console.log(response.data);
                     window.location.href = "Expanse/index.html";
                 }
                 

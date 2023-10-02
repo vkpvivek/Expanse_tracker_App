@@ -16,6 +16,7 @@ function onSubmit(e) {
       msg.innerHTML = 'Please enter all fields';
 
     } else {
+
         let myObj={
             amount:amountInput.value,
             description:describeInput.value,
@@ -23,8 +24,9 @@ function onSubmit(e) {
         };
 
         console.log(myObj);
-
-        axios.post("http://localhost:3000/add-expanse",myObj)
+        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+        const token=localStorage.getItem('Token');
+        axios.post("http://localhost:3000/add-expanse",myObj,{ headers :{"Authorization":token}})
             .then((response)=>{
                 console.log(response.data.newExpanseDetails);
                 showUser(response.data.newExpanseDetails)
@@ -38,7 +40,9 @@ function onSubmit(e) {
 
 
 window.addEventListener("DOMContentLoaded",()=>{
-    axios.get("http://localhost:3000/get-expanse")
+    const token=localStorage.getItem('Token');
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+    axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
         .then((response)=>{
             console.log(response.data.newExpanseDetails);
             for( var i=0;i<response.data.newExpanseDetails.length;i++){
@@ -68,7 +72,9 @@ function showUser(obj){
 
 
     deleteBtn.onclick=()=>{
-        axios.delete(`http://localhost:3000/delete-expanse/${obj.id}`)
+        const token=localStorage.getItem('Token');
+        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+        axios.delete(`http://localhost:3000/delete-expanse/${obj.id}`,{ headers :{"Authorization":token}})
             .then(response => {
                 console.log(`Deleted post with ID ${obj.id}`);
             })

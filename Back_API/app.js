@@ -9,6 +9,8 @@ app.use(express.json());  //to parse JSON request bodies
 
 const userRoutes=require('./routes/user');
 const expanseRoutes=require('./routes/expanse');
+const Expanse = require('./models/expanse');
+const User = require('./models/user');
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,6 +18,9 @@ app.use(cors())
 
 app.use(userRoutes);
 app.use(expanseRoutes);
+
+User.hasMany(Expanse);
+Expanse.belongsTo(User);
 
 
 

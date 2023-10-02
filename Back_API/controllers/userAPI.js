@@ -1,6 +1,7 @@
 const express=require('express');
 const User=require('../models/user');
 const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
 
 
 exports.postUser= async (req,res,next)=>{
@@ -32,6 +33,9 @@ exports.postUser= async (req,res,next)=>{
     // });
 };
 
+function generateAccessToken(id){
+    return jwt.sign({userId:id},'xxxSecretKeyxxx')
+}
 
 exports.userLogin= async (req,result,next)=>{
     const email=req.body.email;
@@ -49,13 +53,14 @@ exports.userLogin= async (req,result,next)=>{
     if(obj.length>0){
         //check if password matches
         const pass=obj[0].password;
+        const UserId=obj[0].id;
         //password match by comaring encrypted value
         bcrypt.compare(password, pass, (err,res) =>{
             if(err){
                 result.status(500).json({ success:false, message:"Something Went Wrong" });
             }
             if(res===true){
-                result.status(200).json({ success:true, message:"Loged in Successfully" });
+                result.status(200).json({ success:true, message:"Loged in Successfully", token :generateAccessToken(UserId)});
             }else{
                 result.status(400).json({ success:false, message:"Password is Incorrect" });
             }
@@ -67,22 +72,6 @@ exports.userLogin= async (req,result,next)=>{
     }
 
 
-    // if(obj.length>0){
-    //     // check if password matches
-    //     const pass=obj[0].password;
-
-    //     if(password===pass){
-    //         result.status(200).json({ success:true, message:"Loged in Successfully" });
-    //     }else{
-    //         result.status(400).json({ success:false, message:"Password is Incorrect" });
-    //     }
-        
-    // } 
-    // else {
-    //     return result.status(404).json({ success:false, message:"User Not Found" });
-    // }
-
-    
     // result.status(201).json({
     //     newUserDetails:obj
     // });
