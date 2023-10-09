@@ -9,8 +9,11 @@ app.use(express.json());  //to parse JSON request bodies
 
 const userRoutes=require('./routes/user');
 const expanseRoutes=require('./routes/expanse');
+const purchaseRoutes=require('./routes/purchase');
+
 const Expanse = require('./models/expanse');
 const User = require('./models/user');
+const Order= require('./models/order');
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -18,10 +21,13 @@ app.use(cors())
 
 app.use(userRoutes);
 app.use(expanseRoutes);
+app.use(purchaseRoutes);
 
 User.hasMany(Expanse);
 Expanse.belongsTo(User);
 
+User.hasMany(Order);
+Order.belongsTo(User);
 
 
 app.get('/',(req,res,next)=>{

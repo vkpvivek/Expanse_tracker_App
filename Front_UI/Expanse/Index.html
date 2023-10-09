@@ -13,16 +13,23 @@
   </head>
   <body>
     <div class="container">
-        <nav class="navbar navbar-light" style="background-color: #e3f2fd; justify-content: center;">
-            <h2>Expanse Tracker</h2>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            <h2 style="color: #4bae09; justify-content: center;">Expanse Tracker</h2>
+
+            <div>
+                <button class="btn btn-outline-success float-right" id="premium" type="button">Premium</button>
+            </div>
         </nav>
     </div>
 
     <div class="container">
         <div>
-
-
             <form id="my-form">
+
+                <!-- <div>
+                  <button class="btn btn-outline-success float-right" type="submit">Premium</button>
+                </div> -->
+
                 <h3>Add Expanses</h3>
                 <div class="form-row msg">
                     <div class="form-group col-md-4">
@@ -63,7 +70,8 @@
             
         </div>
     </div>
-      
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
     <script src="index.js"></script>
   </body>

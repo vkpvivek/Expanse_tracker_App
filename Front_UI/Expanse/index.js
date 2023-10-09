@@ -3,9 +3,62 @@ const myForm = document.querySelector('#my-form');
 const amountInput = document.querySelector('#amount');
 const describeInput = document.querySelector('#describe');
 const categoryInput=document.querySelector('#category')
-// const msg = document.querySelector('.msg');
-
+//const msg = document.querySelector('.msg');
 // var ItemList=document.getElementById('userDetail');
+
+
+
+const premium=document.querySelector('#premium');
+premium.addEventListener('click', premiumClick);
+
+async function premiumClick(e) {
+   // e.preventDefault();
+    //alert("premium");
+    console.log("premium Feature");
+
+    const token=localStorage.getItem('Token');
+
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
+
+    // console.log(token);
+    const response=await axios.get('http://localhost:3000/premium',{ headers :{"Authorization":token}});
+
+    console.log(response.data);
+    console.log("key_Id: "+response.data.key_id);
+    console.log("Order_Id: "+response.data.order.id);
+    console.log("------------------------------------");
+
+    var options=
+    {
+        "key":response.data.key_id,
+        "order_id":response.data.order.id,
+        //this will handle success payment
+        "handler": async function(response){
+            await axios.post('http://localhost:3000/updateTransactionStatus',{
+                order_id:options.order_id,
+                payment_id:response.razorpay_payment_id
+            },{ headers :{"Authorization":token}})
+
+            alert("you are premium User Now");
+        },
+    };
+    
+    console.log("------------------------------------");
+    // console.log(options);
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+
+    rzp1.on('payment.failed',function(response){
+        console.log(response)
+        alert('Something went wrong')
+    });
+
+}
+
+
+
 
 myForm.addEventListener('submit', onSubmit);
 
@@ -24,7 +77,7 @@ function onSubmit(e) {
         };
 
         console.log(myObj);
-        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
         const token=localStorage.getItem('Token');
         axios.post("http://localhost:3000/add-expanse",myObj,{ headers :{"Authorization":token}})
             .then((response)=>{
@@ -41,7 +94,7 @@ function onSubmit(e) {
 
 window.addEventListener("DOMContentLoaded",()=>{
     const token=localStorage.getItem('Token');
-    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
     axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
         .then((response)=>{
             console.log(response.data.newExpanseDetails);
@@ -72,8 +125,8 @@ function showUser(obj){
 
 
     deleteBtn.onclick=()=>{
-        const token=localStorage.getItem('Token');
-        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjE0MDQwOH0.VUAgWYvRxUrwbVxcmiCWC6ZJFKSaByLwXxtrRSHWR-Q";
+        // const token=localStorage.getItem('Token');
+        const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
         axios.delete(`http://localhost:3000/delete-expanse/${obj.id}`,{ headers :{"Authorization":token}})
             .then(response => {
                 console.log(`Deleted post with ID ${obj.id}`);
@@ -85,7 +138,6 @@ function showUser(obj){
         parElem.removeChild(childElem);
     }
     childElem.appendChild(deleteBtn);    //add delete button Li
-
 
     parElem.appendChild(childElem);
 
