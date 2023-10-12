@@ -33,8 +33,8 @@ exports.postUser= async (req,res,next)=>{
     // });
 };
 
-function generateAccessToken(id){
-    return jwt.sign({userId:id},'xxxSecretKeyxxx')
+function generateAccessToken(id, username, isPremiumUser){
+    return jwt.sign({userId:id , username ,isPremiumUser },'xxxSecretKeyxxx')
 }
 
 exports.userLogin= async (req,result,next)=>{
@@ -60,7 +60,7 @@ exports.userLogin= async (req,result,next)=>{
                 result.status(500).json({ success:false, message:"Something Went Wrong" });
             }
             if(res===true){
-                result.status(200).json({ success:true, message:"Loged in Successfully", token :generateAccessToken(UserId)});
+                result.status(200).json({ success:true, message:"Loged in Successfully", token :generateAccessToken(UserId ,obj[0].username,obj[0].isPremiumUser)});
             }else{
                 result.status(400).json({ success:false, message:"Password is Incorrect" });
             }

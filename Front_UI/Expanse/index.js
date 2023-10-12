@@ -12,16 +12,14 @@ const premium=document.querySelector('#premium');
 premium.addEventListener('click', premiumClick);
 
 async function premiumClick(e) {
-   // e.preventDefault();
-    //alert("premium");
-    console.log("premium Feature");
 
+    console.log("premium Feature");
+    
     const token=localStorage.getItem('Token');
 
-    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoic2FtYXIiLCJpc1ByZW1pdW1Vc2VyIjp0cnVlLCJpYXQiOjE2OTY5Mzk1MjF9.pRkbzK3Ld6lTUDiU_ZJbJWh71jOFKFynT-BkjEvFNN8";
 
-    // console.log(token);
-    const response=await axios.get('http://localhost:3000/premium',{ headers :{"Authorization":token}});
+    const response=await axios.get('http://localhost:3000/purchase',{ headers :{"Authorization":token}});
 
     console.log(response.data);
     console.log("key_Id: "+response.data.key_id);
@@ -40,6 +38,7 @@ async function premiumClick(e) {
             },{ headers :{"Authorization":token}})
 
             alert("you are premium User Now");
+            showPremiumUser();
         },
     };
     
@@ -57,6 +56,60 @@ async function premiumClick(e) {
 
 }
 
+
+function showPremiumUser(){
+    document.getElementById('premium').style.visibility="hidden";
+    document.getElementById('PremiumUser').innerHTML="Prime User";
+    showLeaderBoard();
+    // document.getElementById('leaderboard').innerHTML="Leaderboard";
+}
+
+
+function showLeaderBoard(){
+    const parElem=document.getElementById('prime');
+    const LInput=document.createElement('button');
+    LInput.className='btn btn-outline-success float-right';
+    LInput.appendChild(document.createTextNode('Leaderboard'));
+
+
+    LInput.onclick =async()=>{
+        console.log("---leaderboard---");
+
+        const token=localStorage.getItem('Token');
+        console.log(token);
+
+        const userLeaderBoard= await axios.get("http://localhost:3000/showLeaderBoard",{ headers :{"Authorization":token}})
+
+        //console.log(userLeaderBoard.data);
+
+        for( var i=0;i<userLeaderBoard.data.length;i++){
+            LeaderBoardUI(userLeaderBoard.data[i]);
+        }
+    }
+
+    parElem.appendChild(LInput);
+}
+
+function LeaderBoardUI(obj){
+    const parElem=document.getElementById('leaderboardDetails');
+    const childElem=document.createElement('li');
+    childElem.className='list-group-item';
+
+    childElem.textContent="₹"+obj.totalCost +" -- "+obj.username;
+
+    parElem.appendChild(childElem);
+}
+
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
 
 
 
@@ -77,8 +130,8 @@ function onSubmit(e) {
         };
 
         console.log(myObj);
-        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
         const token=localStorage.getItem('Token');
+        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoic2FtYXIiLCJpc1ByZW1pdW1Vc2VyIjp0cnVlLCJpYXQiOjE2OTY5Mzk1MjF9.pRkbzK3Ld6lTUDiU_ZJbJWh71jOFKFynT-BkjEvFNN8";        const token=localStorage.getItem('Token');
         axios.post("http://localhost:3000/add-expanse",myObj,{ headers :{"Authorization":token}})
             .then((response)=>{
                 console.log(response.data.newExpanseDetails);
@@ -93,18 +146,26 @@ function onSubmit(e) {
 
 
 window.addEventListener("DOMContentLoaded",()=>{
+
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoic2FtYXIiLCJpc1ByZW1pdW1Vc2VyIjp0cnVlLCJpYXQiOjE2OTY5Mzk1MjF9.pRkbzK3Ld6lTUDiU_ZJbJWh71jOFKFynT-BkjEvFNN8";
     const token=localStorage.getItem('Token');
-    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
-    axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
-        .then((response)=>{
-            console.log(response.data.newExpanseDetails);
-            for( var i=0;i<response.data.newExpanseDetails.length;i++){
-                showUser(response.data.newExpanseDetails[i]);
-            }
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+    const decodeToken =parseJwt(token);
+    const isPremium=decodeToken.isPremiumUser;
+    if(isPremium){
+        showPremiumUser();
+    }
+
+    
+    // axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
+    //     .then((response)=>{
+    //         console.log(response.data.newExpanseDetails);
+    //         for( var i=0;i<response.data.newExpanseDetails.length;i++){
+    //             showUser(response.data.newExpanseDetails[i]);
+    //         }
+    //     })
+    //     .catch((err)=>{
+    //         console.log(err);
+    //     })
 })
 
 
@@ -125,8 +186,8 @@ function showUser(obj){
 
 
     deleteBtn.onclick=()=>{
-        // const token=localStorage.getItem('Token');
-        const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5NjY1Njc2Nn0.SqJHzPkNhN4_TwXYyouOgdr_ss9KYQamDSQ8CiJvcBM";
+        const token=localStorage.getItem('Token');
+        //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoic2FtYXIiLCJpc1ByZW1pdW1Vc2VyIjp0cnVlLCJpYXQiOjE2OTY5Mzk1MjF9.pRkbzK3Ld6lTUDiU_ZJbJWh71jOFKFynT-BkjEvFNN8";
         axios.delete(`http://localhost:3000/delete-expanse/${obj.id}`,{ headers :{"Authorization":token}})
             .then(response => {
                 console.log(`Deleted post with ID ${obj.id}`);

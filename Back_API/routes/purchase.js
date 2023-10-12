@@ -4,7 +4,7 @@ const userAuthentication=require('../middleware/Auth');
 
 const router=express.Router();
 
-router.get('/premium',userAuthentication.authenticate ,purchaseController.purchasePremium);
+router.get('/purchase',userAuthentication.authenticate ,purchaseController.purchasePremium);
 
 router.post('/updateTransactionStatus',userAuthentication.authenticate ,purchaseController.updateStatus);
 
