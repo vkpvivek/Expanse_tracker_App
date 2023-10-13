@@ -1,12 +1,16 @@
 const Razorpay= require('razorpay');
 const Order=require('../models/order');
+const userController = require('./userAPI');
+const jwt=require('jsonwebtoken');
+
+
 
 exports.purchasePremium=async (req,res)=>{
     try{
 
         var rzp=new Razorpay({
-            key_id: 'rzp_test_v5uXuYVkXCUZjN',
-            key_secret: 'ofyGO4PRQUSheMLg0pzaSnYtl'
+            key_id: 'rzp_test_pkW5717fWBSLAd',
+            key_secret: 'qGX15KwWotBHK0gbuA2mOhjz'
             // key_id: process.env.RAZORPAY_KEY_ID,
             // key_secret: process.env.RAZORPAY_KEY_SECRET
         })
@@ -27,7 +31,7 @@ exports.purchasePremium=async (req,res)=>{
                 })
         })
 
-        // res.status(200).json({message:'Testing',amount,rzp});
+        //res.status(200).json({message:'Testing',amount,rzp});
 
     } catch(err){
         console.log(err);
@@ -35,6 +39,9 @@ exports.purchasePremium=async (req,res)=>{
     }
 }
 
+function generateAccessToken(id, username, isPremiumUser){
+    return jwt.sign({userId:id , username ,isPremiumUser },'xxxSecretKeyxxx')
+}
 
 exports.updateStatus= async (req,res)=>{
     console.log(".......update Status..................");
@@ -43,6 +50,9 @@ exports.updateStatus= async (req,res)=>{
         const {payment_id,order_id} = req.body;
         const order = await Order.findOne({where:{orderId:order_id}})
 
+        //token to remain login after premium even after refresh
+        const token= generateAccessToken(req.user.id,undefined,true);
+        console.log(token);
         // await order.update({paymentId:payment_id,status:'SUCCESSFUL'})
         // await req.user.update({isPremiumUser:true})
 
@@ -50,7 +60,7 @@ exports.updateStatus= async (req,res)=>{
         const promise2=req.user.update({isPremiumUser:true});
 
         Promise.all([promise1,promise2]).then(()=>{
-            return  res.status(202).json({success:true,message:'Transaction Successful'});
+            return  res.status(202).json({success:true,message:'Transaction Successful',token});
         }).catch((err)=>{
             throw new Error(err);
         })

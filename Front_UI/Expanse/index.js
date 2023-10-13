@@ -32,13 +32,15 @@ async function premiumClick(e) {
         "order_id":response.data.order.id,
         //this will handle success payment
         "handler": async function(response){
-            await axios.post('http://localhost:3000/updateTransactionStatus',{
+            const res= await axios.post('http://localhost:3000/updateTransactionStatus',{
                 order_id:options.order_id,
                 payment_id:response.razorpay_payment_id
             },{ headers :{"Authorization":token}})
 
             alert("you are premium User Now");
             showPremiumUser();
+            console.log(res+"  ...................");
+            localStorage.setItem("Token",res.data.token);
         },
     };
     
@@ -84,6 +86,7 @@ function showLeaderBoard(){
 
         for( var i=0;i<userLeaderBoard.data.length;i++){
             LeaderBoardUI(userLeaderBoard.data[i]);
+            //
         }
     }
 
