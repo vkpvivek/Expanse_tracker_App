@@ -5,8 +5,8 @@ exports.purchasePremium=async (req,res)=>{
     try{
 
         var rzp=new Razorpay({
-            key_id: 'rzp_test_cdFtEBtFwUjmIb',
-            key_secret: 'okzqC52UcQIgq7LzzhgZsXIr'
+            key_id: 'rzp_test_v5uXuYVkXCUZjN',
+            key_secret: 'ofyGO4PRQUSheMLg0pzaSnYtl'
             // key_id: process.env.RAZORPAY_KEY_ID,
             // key_secret: process.env.RAZORPAY_KEY_SECRET
         })

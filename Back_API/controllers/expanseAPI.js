@@ -1,5 +1,6 @@
 const express=require('express');
 const Expanse=require('../models/expanse');
+const User=require('../models/user');
 
 
 exports.getExpanses= async (req,res,next)=>{
@@ -26,8 +27,19 @@ exports.postExpanses= async (req,res,next)=>{
         userId:userId
     });
 
+
+    //Update Total Cost in User Table
+    const user = await User.findByPk(userId);
+    const totCost = user.totalCost + Number(amount);
+    const updatedCost=await User.update(
+        {totalCost:totCost},
+        {where:{id:userId}}
+    )
+
+
     res.status(201).json({
-        newExpanseDetails:data
+        newExpanseDetails:data,
+        "totCost":totCost
     });
 };
 
