@@ -159,16 +159,16 @@ window.addEventListener("DOMContentLoaded",()=>{
     }
 
     
-    // axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
-    //     .then((response)=>{
-    //         console.log(response.data.newExpanseDetails);
-    //         for( var i=0;i<response.data.newExpanseDetails.length;i++){
-    //             showUser(response.data.newExpanseDetails[i]);
-    //         }
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err);
-    //     })
+    axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
+        .then((response)=>{
+            console.log(response.data.newExpanseDetails);
+            for( var i=0;i<response.data.newExpanseDetails.length;i++){
+                showUser(response.data.newExpanseDetails[i]);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
 })
 
 
