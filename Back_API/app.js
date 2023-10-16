@@ -15,6 +15,7 @@ const premiumRoutes=require('./routes/premium');
 const Expanse = require('./models/expanse');
 const User = require('./models/user');
 const Order= require('./models/order');
+const Forgotpassword = require('./models/forgotpassword');
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -30,6 +31,10 @@ Expanse.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
+
 
 
 app.get('/',(req,res,next)=>{

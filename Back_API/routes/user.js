@@ -8,7 +8,13 @@ router.post('/add-user',userController.postUser);
 
 router.post('/login',userController.userLogin);
 
+
 router.post('/forgotPassword',passwordController.callForgotPassword);
+
+router.get('/resetPassword/:id',passwordController.resetpassword);
+
+router.get('/updatepassword/:resetId', passwordController.updatepassword);
+
 
 
 router.get('/home',(req,res,next)=>{
