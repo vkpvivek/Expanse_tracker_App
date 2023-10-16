@@ -63,8 +63,46 @@ function showPremiumUser(){
     document.getElementById('premium').style.visibility="hidden";
     document.getElementById('PremiumUser').innerHTML="Prime User";
     showLeaderBoard();
+    downloadReport();
     // document.getElementById('leaderboard').innerHTML="Leaderboard";
 }
+
+
+function downloadReport(){
+    const parElem=document.getElementById('prime');
+    const LInput=document.createElement('button');
+    LInput.className='btn btn-outline-success float-right';
+    LInput.appendChild(document.createTextNode('DownLoad'));
+
+
+    LInput.onclick =async()=>{
+        console.log("---downloaded---");
+
+        axios.get('http://localhost:3000/download', { headers: {"Authorization" : token} })
+        .then((response) => {
+            if(response.status === 201){
+                //the bcakend is essentially sending a download link
+                //  which if we open in browser, the file would download
+                var a = document.createElement("a");
+                a.href = response.data.fileUrl;
+                a.download = 'myexpense.csv';
+                a.click();
+
+            } else {
+                //throw new Error(response.data.message);
+                console.log("error");
+            }
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
+    
+    parElem.appendChild(LInput);
+}
+
 
 
 function showLeaderBoard(){
@@ -92,6 +130,7 @@ function showLeaderBoard(){
 
     parElem.appendChild(LInput);
 }
+
 
 function LeaderBoardUI(obj){
     const parElem=document.getElementById('leaderboardDetails');
