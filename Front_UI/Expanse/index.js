@@ -2,7 +2,8 @@
 const myForm = document.querySelector('#my-form');
 const amountInput = document.querySelector('#amount');
 const describeInput = document.querySelector('#describe');
-const categoryInput=document.querySelector('#category')
+const categoryInput=document.querySelector('#category');
+const pagination=document.querySelector('#Pagination');
 //const msg = document.querySelector('.msg');
 // var ItemList=document.getElementById('userDetail');
 
@@ -200,20 +201,81 @@ window.addEventListener("DOMContentLoaded",()=>{
         showPremiumUser();
     }
 
-    
-    axios.get("http://localhost:3000/get-expanse",{ headers :{"Authorization":token}})
+    const page=1;
+
+    console.log("test");
+
+    // const currentPage=2,hasNextPage=true,nextPage=3,hasPreviousPage=true,previousPage=1,lastPage=5;
+    // showPagination({currentPage,
+    //     hasNextPage,
+    //     nextPage,
+    //     hasPreviousPage,
+    //     previousPage,
+    //     lastPage}
+    // );
+
+    //axios.get(`http://localhost:3000/get-expanse`,{ headers :{"Authorization":token}})
+    axios.get(`http://localhost:3000/get-expanse?page=${page}`,{ headers :{"Authorization":token}})
         .then((response)=>{
             console.log(response.data.newExpanseDetails);
             for( var i=0;i<response.data.newExpanseDetails.length;i++){
                 showUser(response.data.newExpanseDetails[i]);
             }
+            console.log(response.data);
+            showPagination(response.data);
         })
         .catch((err)=>{
             console.log(err);
         })
 })
 
+//const currentPage=2,hasNextPage=true,nextPage=3,hasPreviousPage=true,previousPage=1,lastPage=5;
 
+function showPagination({
+    currentPage,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage,
+    previousPage,
+    lastPage,
+}){
+    pagination.innerHTML='';
+
+    if(hasPreviousPage){
+        const btn2=document.createElement('button');
+        btn2.innerHTML=previousPage
+        btn2.addEventListener('click',()=> getExpanse(previousPage))
+        pagination.appendChild(btn2);
+    }
+
+    const btn1=document.createElement('button');
+    btn1.innerHTML=`<h3>${currentPage}</h3>`
+    btn1.addEventListener('click',()=> getExpanse(currentPage))
+    pagination.appendChild(btn1);
+
+    if(hasNextPage){
+        const btn3=document.createElement('button');
+        btn3.innerHTML=nextPage
+        btn3.addEventListener('click',()=> getExpanse(nextPage))
+        pagination.appendChild(btn3);
+    }
+}
+
+function getExpanse(page){
+
+    const token=localStorage.getItem('Token');
+    axios.get(`http://localhost:3000/get-expanse?page=${page}`,{ headers :{"Authorization":token}})
+        .then((response)=>{
+            console.log(response.data.newExpanseDetails);
+            for( var i=0;i<response.data.newExpanseDetails.length;i++){
+                showUser(response.data.newExpanseDetails[i]);
+            }
+            showPagination(response.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+}
 
 function showUser(obj){
     const parElem=document.getElementById('expanseDetail');

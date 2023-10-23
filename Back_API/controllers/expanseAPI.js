@@ -5,13 +5,42 @@ const sequelize=require('../util/database');
 
 
 exports.getExpanses= async (req,res,next)=>{
-    console.log("______ID_>>"+req.user.id);
-    const expanses= await Expanse.findAll({where:{userId:req.user.id}});
-    //const expanses= await Expanse.findAll();
+    const ITEM_PER_PAGE=3;
 
-    res.status(201).json({
-        newExpanseDetails:expanses
-    });
+    const page=+req.query.page|| 1;
+    let totalItems;
+
+    Expanse.count()
+        .then((total)=>{
+            totalItems=total;
+            return Expanse.findAll({
+                offset:(page-1)*ITEM_PER_PAGE,
+                limit: ITEM_PER_PAGE,
+                where:{userId:req.user.id}
+            });
+        })
+        .then((expanses)=>{
+            res.status(201).json({
+                newExpanseDetails:expanses,
+                currentPage: page,
+                hasNextPage: ITEM_PER_PAGE*page <totalItems,
+                nextPage: page+1,
+                hasPreviousPage: page>1,
+                previousPage: page-1,
+                lastPage:Math.ceil(totalItems/ITEM_PER_PAGE),
+            });
+        })
+        .catch((err)=>console.log(err));
+
+
+    // console.log("______ID_>>"+req.user.id);
+    // const expanses= await Expanse.findAll({where:{userId:req.user.id}});
+    // //const expanses= await Expanse.findAll();
+
+    // res.status(201).json({
+    //     newExpanseDetails:expanses
+    // });
+
 };
 
 
