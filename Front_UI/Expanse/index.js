@@ -76,30 +76,33 @@ function downloadReport(){
 
 
     LInput.onclick =async()=>{
-        console.log("---downloaded---");
 
-        axios.get('http://localhost:3000/download', { headers: {"Authorization" : token} })
+        console.log("---downloaded---");
+        const token=localStorage.getItem('Token');
+
+        axios.get('http://localhost:3000/download',{ headers: {"Authorization" : token} })
         .then((response) => {
-            if(response.status === 201){
-                //the bcakend is essentially sending a download link
-                //  which if we open in browser, the file would download
+            if(response.status === 200){
+                //the bcakend is essentially sending a download link, 
+                //which if we open in browser, the file would download
                 var a = document.createElement("a");
-                a.href = response.data.fileUrl;
+                a.href = response.data.fileURL;
+                console.log(a);
                 a.download = 'myexpense.csv';
                 a.click();
+                //console.log(response.data.fileURL);
 
             } else {
-                //throw new Error(response.data.message);
                 console.log("error");
             }
-
+            //console.log(response.data.fileUrl);
         })
         .catch((err) => {
             console.log(err);
         });
+
     }
 
-    
     parElem.appendChild(LInput);
 }
 

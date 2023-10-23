@@ -12,7 +12,6 @@ const client = Sib.ApiClient.instance;
 const apiKey=client.authentications['api-key']
 apiKey.apiKey=process.env.API_KEY;
 
-
 exports.callForgotPassword= async (req,res,next)=>{
     const tranEmailAPi =new Sib.TransactionalEmailsApi();
     const sender={
@@ -158,5 +157,6 @@ exports.updatepassword = (req, res) => {
     }
 
 }
+
 
 

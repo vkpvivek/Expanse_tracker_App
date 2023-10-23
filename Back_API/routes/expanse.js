@@ -5,7 +5,7 @@ const userAuthentication=require('../middleware/Auth');
 const router=express.Router();
 
 
-router.get('/get-expanse',userAuthentication.authenticate ,expanseController.getExpanses);
+router.get('/get-expanse',userAuthentication.authenticate , expanseController.getExpanses);
 
 router.post('/add-expanse',userAuthentication.authenticate, expanseController.postExpanses);
 
