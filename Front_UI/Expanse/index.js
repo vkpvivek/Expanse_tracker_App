@@ -9,6 +9,20 @@ const pagination=document.querySelector('#Pagination');
 
 
 
+const myForm2 = document.querySelector('#my-form2');
+const LimitInput=document.querySelector('#limitPP');
+
+myForm2.addEventListener('submit', setLimit);
+
+function setLimit(e){
+    e.preventDefault();
+
+    localStorage.setItem('Limit_Per_Page',LimitInput.value);
+    //console.log(LimitInput.value);
+}
+
+
+
 const premium=document.querySelector('#premium');
 premium.addEventListener('click', premiumClick);
 
@@ -195,27 +209,21 @@ window.addEventListener("DOMContentLoaded",()=>{
 
     //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoic2FtYXIiLCJpc1ByZW1pdW1Vc2VyIjp0cnVlLCJpYXQiOjE2OTY5Mzk1MjF9.pRkbzK3Ld6lTUDiU_ZJbJWh71jOFKFynT-BkjEvFNN8";
     const token=localStorage.getItem('Token');
+    const LimitPerPage=localStorage.getItem('Limit_Per_Page');
+    const CurrPage=localStorage.getItem('CurrPage');
+    console.log(LimitPerPage);
+
     const decodeToken =parseJwt(token);
     const isPremium=decodeToken.isPremiumUser;
     if(isPremium){
         showPremiumUser();
     }
 
-    const page=1;
-
+    //const page=objUrlParams.get("page");//|| 1;
+    const page=CurrPage|| 1;
     console.log("test");
-
-    // const currentPage=2,hasNextPage=true,nextPage=3,hasPreviousPage=true,previousPage=1,lastPage=5;
-    // showPagination({currentPage,
-    //     hasNextPage,
-    //     nextPage,
-    //     hasPreviousPage,
-    //     previousPage,
-    //     lastPage}
-    // );
-
     //axios.get(`http://localhost:3000/get-expanse`,{ headers :{"Authorization":token}})
-    axios.get(`http://localhost:3000/get-expanse?page=${page}`,{ headers :{"Authorization":token}})
+    axios.get(`http://localhost:3000/get-expanse?page=${page}&limits=${LimitPerPage}`,{ headers :{"Authorization":token}})
         .then((response)=>{
             console.log(response.data.newExpanseDetails);
             for( var i=0;i<response.data.newExpanseDetails.length;i++){
@@ -227,6 +235,16 @@ window.addEventListener("DOMContentLoaded",()=>{
         .catch((err)=>{
             console.log(err);
         })
+
+            // const currentPage=2,hasNextPage=true,nextPage=3,hasPreviousPage=true,previousPage=1,lastPage=5;
+            // showPagination({currentPage,
+            //     hasNextPage,
+            //     nextPage,
+            //     hasPreviousPage,
+            //     previousPage,
+            //     lastPage}
+            // );
+
 })
 
 //const currentPage=2,hasNextPage=true,nextPage=3,hasPreviousPage=true,previousPage=1,lastPage=5;
@@ -253,6 +271,7 @@ function showPagination({
     btn1.addEventListener('click',()=> getExpanse(currentPage))
     pagination.appendChild(btn1);
 
+
     if(hasNextPage){
         const btn3=document.createElement('button');
         btn3.innerHTML=nextPage
@@ -263,13 +282,22 @@ function showPagination({
 
 function getExpanse(page){
 
+    console.log("#####");
+    localStorage.setItem('CurrPage',page);
+
     const token=localStorage.getItem('Token');
-    axios.get(`http://localhost:3000/get-expanse?page=${page}`,{ headers :{"Authorization":token}})
+    const LimitPerPage=localStorage.getItem('Limit_Per_Page');
+    console.log("....>>"+page,LimitPerPage);
+    location.reload();
+
+    axios.get(`http://localhost:3000/get-expanse?page=${page}&limits=${LimitPerPage}`,{ headers :{"Authorization":token}})
         .then((response)=>{
             console.log(response.data.newExpanseDetails);
             for( var i=0;i<response.data.newExpanseDetails.length;i++){
                 showUser(response.data.newExpanseDetails[i]);
             }
+            console.log(response.data);
+            
             showPagination(response.data);
         })
         .catch((err)=>{

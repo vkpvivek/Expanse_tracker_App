@@ -65,13 +65,26 @@
             </form>
       
             <ul class="list-group" id="expanseDetail">
-              <li class="list-group-item">Expanse Details <button class="delete" style="float: right;" >delete</button>
+              <li class="list-group-item">Expanse Details 
+                <!-- <button class="delete" style="float: right;" >delete</button> -->
                 <!-- <button class="edit" style="float: right;" >Edit</button> -->
+                <form id="my-form2">
+                  <button type="submit" style="float: right;" >Submit</button>
+                  <select class="edit" style="float: right;" id="limitPP" placeholder="Limit">
+                    <option selected>Limit Per Page:</option>
+                    <option>4</option>
+                    <option>10</option>
+                    <option>15</option>
+                    <option>20</option>
+                    <option>25</option>
+                  </select>
+                </form>
+                  
               </li>
             </ul>
 
             <div id="Pagination">
-                
+
             </div>
 
             <br>

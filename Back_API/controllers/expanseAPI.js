@@ -5,7 +5,12 @@ const sequelize=require('../util/database');
 
 
 exports.getExpanses= async (req,res,next)=>{
-    const ITEM_PER_PAGE=3;
+    
+
+    const Limit1=parseInt(req.query.limits);
+    console.log("........."+Limit1);
+
+    const ITEM_PER_PAGE=Limit1;
 
     const page=+req.query.page|| 1;
     let totalItems;
