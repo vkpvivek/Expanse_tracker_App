@@ -5,22 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Exapase Tracker</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/fontawesome.min.css">
+    <style>
+      body {background-color: rgb(237, 253, 253);}
+    </style>
   </head>
 
   
   <body>
-    <div>
-        <h2>Password Reset!!</h2>
-        <form id="my-form">
-          <!-- <input type="text" id="username" placeholder="username" />   -->
-          <input type="text" id="email" placeholder="email" />
-          <!-- <input type="password" id="password" placeholder="password" /> -->
-          <button type="submit" class="btn">Reset</button>
-          <!-- <a class="forgot" href="ForgotPass">Forgot Password</a>
-          <a class="newUser" href="SignUp.html">New? Register Here</a> -->
 
+    <div class="center">
+        <h2>Password Reset!!</h2>
+
+        <form id="my-form">
+          <div class="form-group">
+            <input type="text" id="email" placeholder="email" />
+          </div>
+          <button type="submit" class="btn btn-primary">Reset</button>
         </form>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>

@@ -1,0 +1,21 @@
+
+/* .center {
+    border: 5px solid;
+    top:20%;
+    background-color: rgb(237, 253, 253);
+    margin: auto;
+    width: 20%;
+    left: 40%;
+    padding: 20px;
+    position: absolute;
+} */
+
+.center {
+    background-color: rgb(185, 245, 245);
+    border: 5px solid;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+  }

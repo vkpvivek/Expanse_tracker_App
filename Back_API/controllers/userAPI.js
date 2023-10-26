@@ -77,6 +77,7 @@ exports.userLogin= async (req,result,next)=>{
     // });
 };
 
+
 // exports.callForgotPassword= async (req,res,next)=>{
 
 //     console.log(req.body.email);
