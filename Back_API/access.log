@@ -1,0 +1,4 @@
+::1 - - [27/Oct/2023:04:43:54 +0000] "OPTIONS /get-expanse?page=1&limits=4 HTTP/1.1" 204 0 "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
+::1 - - [27/Oct/2023:04:43:54 +0000] "GET /get-expanse?page=1&limits=4 HTTP/1.1" 201 750 "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
+::1 - - [27/Oct/2023:04:44:11 +0000] "OPTIONS /showLeaderBoard HTTP/1.1" 204 0 "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
+::1 - - [27/Oct/2023:04:44:11 +0000] "GET /showLeaderBoard HTTP/1.1" 304 - "-" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36"
