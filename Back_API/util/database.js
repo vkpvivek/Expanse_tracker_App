@@ -1,8 +1,11 @@
 const Sequelize=require('sequelize');
+require('dotenv').config();
 
-const sequelize=new Sequelize('Expanse_Tracker','root','zxcvbnm123',{
+
+const sequelize=new Sequelize(process.env.DB_NAME,process.env.DB_USER,process.env.DB_PWD,{
     dialect:'mysql',
-    host:'localhost'
+    host:process.env.DB_HOST
 });
+
 
 module.exports=sequelize;

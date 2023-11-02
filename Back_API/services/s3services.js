@@ -1,12 +1,13 @@
 const AWS=require('aws-sdk');
 
+require('dotenv').config();
 
 exports.uploadTOS3 = async (data,filename)=> {
-    const BUCKET_NAME='varsha.bucket1';
-    const IAM_USER_KEY='AKIATHBSP25NJDQQBZCY';
-    const IAM_USER_SECRET='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';
+    const BUCKET_NAME=process.env.AWS_S3_BUCKET_NAME;
+    const IAM_USER_KEY=process.env.AWS_S3_IAM_USER_KEY;
+    const IAM_USER_SECRET=process.env.AWS_S3_IAM_USER_SECRET;
 
-
+    
     let s3bucket=new AWS.S3({
         accessKeyId:IAM_USER_KEY,
         secretAccessKey:IAM_USER_SECRET
